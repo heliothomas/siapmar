@@ -1,0 +1,6 @@
+# Ignorar la carpeta build, dist, todos los archivos .form, .class
+/build
+/dist
+*.form
+*.class
+*Thumbs.db
