@@ -1,6 +1,8 @@
 # Ignorar la carpeta build, dist, todos los archivos .form, .class
 /build
 /dist
+/nbproject
+manifest.mf
 *.form
 *.class
 *Thumbs.db
