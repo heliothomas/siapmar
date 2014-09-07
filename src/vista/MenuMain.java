@@ -3,11 +3,7 @@ package vista;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,15 +11,14 @@ import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import modelo.D_Grupo;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JasperViewer;
-import sc.Archivo;
 import sc.Conexion;
+import sc.Library;
 import sc.OSDetector;
 
 public class MenuMain extends javax.swing.JFrame {
@@ -34,6 +29,7 @@ Connection conx;
 Statement stm;       //Sirve para consultar
 PreparedStatement ps;//Sirve para insertar, eliminar y actualizar
 ResultSet rs;
+Library lib = new Library();
 
     public MenuMain() {
         initComponents();
@@ -111,16 +107,12 @@ ResultSet rs;
 
         lbFondo.setAutoscrolls(true);
         lbFondo.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(153, 0, 0), 2, true));
+        dskp.add(lbFondo);
         lbFondo.setBounds(30, 20, 900, 640);
-        dskp.add(lbFondo, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        jMenuBar1.setBackground(new java.awt.Color(255, 153, 51));
-
-        menuMatricula.setBackground(new java.awt.Color(255, 255, 255));
         menuMatricula.setText("> Matrícula   ");
 
         miHistoria.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.CTRL_MASK));
-        miHistoria.setBackground(new java.awt.Color(0, 204, 204));
         miHistoria.setText("Historia");
         miHistoria.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -130,7 +122,6 @@ ResultSet rs;
         menuMatricula.add(miHistoria);
 
         miFicSocEco.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_MASK));
-        miFicSocEco.setBackground(new java.awt.Color(153, 204, 255));
         miFicSocEco.setText("Ficha Socioeconómica");
         miFicSocEco.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -141,7 +132,6 @@ ResultSet rs;
 
         jMenuBar1.add(menuMatricula);
 
-        menuRegistros.setBackground(new java.awt.Color(255, 255, 255));
         menuRegistros.setText("> Registros   ");
 
         miHCP.setText("Historia Clínica Pediátrica");
@@ -196,7 +186,6 @@ ResultSet rs;
 
         jMenuBar1.add(menuRegistros);
 
-        menuActividades.setBackground(new java.awt.Color(255, 255, 255));
         menuActividades.setText("> Actividades   ");
 
         miVisitas.setText("Visitas");
@@ -225,7 +214,6 @@ ResultSet rs;
 
         jMenuBar1.add(menuActividades);
 
-        menuConfigur.setBackground(new java.awt.Color(255, 255, 255));
         menuConfigur.setText("> Configuraciones   ");
 
         miGrupo.setText("Grupos");
@@ -246,7 +234,6 @@ ResultSet rs;
 
         jMenuBar1.add(menuConfigur);
 
-        menuHerr.setBackground(new java.awt.Color(255, 255, 255));
         menuHerr.setText("> Herramientas   ");
 
         miCU.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.CTRL_MASK));
@@ -308,7 +295,6 @@ ResultSet rs;
 
         jMenuBar1.add(menuHerr);
 
-        menuReportes.setBackground(new java.awt.Color(255, 255, 255));
         menuReportes.setText("> Reportes   ");
 
         miRtCU.setText("Cuentas de Usuario");
@@ -365,7 +351,6 @@ ResultSet rs;
 
         jMenuBar1.add(menuReportes);
 
-        menuInfo.setBackground(new java.awt.Color(255, 255, 255));
         menuInfo.setText("> Información   ");
 
         miAcerkSiapmar.setText("Acerca de SIAPMAR");
@@ -423,134 +408,57 @@ ResultSet rs;
             .addComponent(dskp, javax.swing.GroupLayout.DEFAULT_SIZE, 679, Short.MAX_VALUE)
         );
 
-        java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-        setBounds((screenSize.width-966)/2, (screenSize.height-738)/2, 966, 738);
+        setSize(new java.awt.Dimension(966, 738));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     public static IUserAccount ua = null;
     private void miCUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miCUActionPerformed
-        Dimension deskSize = dskp.getSize();
         if (ua == null) {
             ua = new IUserAccount();
-            dskp.add(ua);
-            ua.show();
-            
-            Dimension jIFSize = ua.getSize();
-            ua.setLocation((deskSize.width - jIFSize.width)/2,(deskSize.height- jIFSize.height)/2);
-        }else{
-            JOptionPane.showMessageDialog(null, "El Formulario: Cuentas de Usuario ya está abierto.");
-            if (!ua.isMaximum()) {
-                ua.getDesktopPane().getDesktopManager().deiconifyFrame(ua);
-                ua.getDesktopPane().getDesktopManager().maximizeFrame(ua); 
-                ua.getDesktopPane().getDesktopManager().minimizeFrame(ua); 
-                ua.moveToFront();
-            }
-            ua.show();
-            Dimension jIFSize = ua.getSize();
-            ua.setLocation((deskSize.width - jIFSize.width)/2,(deskSize.height- jIFSize.height)/2);
-            ua.toFront();
+            lib.openInternalFrame(ua);
+        } else {
+            lib.reopenInternalFrame(ua);
         }
     }//GEN-LAST:event_miCUActionPerformed
 
     public static IFondoMedicoComp fonmed = null;
     private void miFMedCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miFMedCActionPerformed
-        Dimension deskSize = dskp.getSize();
         if (fonmed == null) {
             fonmed = new IFondoMedicoComp();
-            dskp.add(fonmed);
-            fonmed.show();
-            
-            Dimension jIFSize = fonmed.getSize();
-            fonmed.setLocation((deskSize.width - jIFSize.width)/2,(deskSize.height- jIFSize.height)/2);
-        }else{
-            JOptionPane.showMessageDialog(null, "El Formulario: Fondo Médico de Compassion ya está abierto.");
-            if (!fonmed.isMaximum()) {
-                fonmed.getDesktopPane().getDesktopManager().deiconifyFrame(fonmed);
-                fonmed.getDesktopPane().getDesktopManager().maximizeFrame(fonmed); 
-                fonmed.getDesktopPane().getDesktopManager().minimizeFrame(fonmed); 
-                fonmed.moveToFront();
-            }
-            fonmed.show();
-            
-            Dimension jIFSize = fonmed.getSize();
-            fonmed.setLocation((deskSize.width - jIFSize.width)/2,(deskSize.height- jIFSize.height)/2);
-            fonmed.toFront();
+            lib.openInternalFrame(fonmed);
+        } else {
+            lib.reopenInternalFrame(fonmed);
         }
     }//GEN-LAST:event_miFMedCActionPerformed
 
     public static IFichaSocioEcon fichaSE = null;
     private void miFicSocEcoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miFicSocEcoActionPerformed
-        Dimension deskSize = dskp.getSize();
         if (fichaSE == null) {
             fichaSE = new IFichaSocioEcon();
-            dskp.add(fichaSE);
-            fichaSE.show();
-            //Dimension deskSize = dskp.getSize();
-            Dimension jIFSize = fichaSE.getSize();
-            fichaSE.setLocation((deskSize.width - jIFSize.width)/2,(deskSize.height- jIFSize.height)/2);
-        }else{
-            JOptionPane.showMessageDialog(null, "El Formulario: Ficha Socioeconómica ya está abierto.");
-            if (!fichaSE.isMaximum()) {
-                fichaSE.getDesktopPane().getDesktopManager().deiconifyFrame(fichaSE);
-                fichaSE.getDesktopPane().getDesktopManager().maximizeFrame(fichaSE); 
-                fichaSE.getDesktopPane().getDesktopManager().minimizeFrame(fichaSE); 
-                fichaSE.moveToFront();
-            }
-            fichaSE.show();
-            //Dimension deskSize = dskp.getSize();
-            Dimension jIFSize = fichaSE.getSize();
-            fichaSE.setLocation((deskSize.width - jIFSize.width)/2,(deskSize.height- jIFSize.height)/2);
-            fichaSE.toFront();
+            lib.openInternalFrame(fichaSE);
+        } else {
+            lib.reopenInternalFrame(fichaSE);
         }
     }//GEN-LAST:event_miFicSocEcoActionPerformed
 
     public static IHistory hist = null;
     private void miHistoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miHistoriaActionPerformed
-        Dimension deskSize = dskp.getSize();
         if (hist == null) {
             hist = new IHistory();
-            dskp.add(hist);
-            hist.show();
-            //Dimension deskSize = dskp.getSize();
-            Dimension jIFSize = hist.getSize();
-            hist.setLocation((deskSize.width - jIFSize.width)/2,(deskSize.height- jIFSize.height)/2);
-        }else{
-            JOptionPane.showMessageDialog(null, "El Formulario: Historia ya está abierto.");
-            if (!hist.isMaximum()) {
-                hist.getDesktopPane().getDesktopManager().deiconifyFrame(hist);
-                hist.getDesktopPane().getDesktopManager().maximizeFrame(hist);
-                hist.getDesktopPane().getDesktopManager().minimizeFrame(hist);
-                hist.moveToFront();
-            }
-            hist.show();
-            //Dimension deskSize = dskp.getSize();
-            Dimension jIFSize = hist.getSize();
-            hist.setLocation((deskSize.width - jIFSize.width)/2,(deskSize.height- jIFSize.height)/2);
-            hist.toFront();
+            lib.openInternalFrame(hist);
+        } else {
+            lib.reopenInternalFrame(hist);
         }
     }//GEN-LAST:event_miHistoriaActionPerformed
 
     public static IVisitas vis = null;
     private void miVisitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miVisitasActionPerformed
-        Dimension deskSize = dskp.getSize();
         if (vis == null) {
             vis = new IVisitas();
-            dskp.add(vis);
-            vis.show();
-            Dimension jIFSize = vis.getSize();
-            vis.setLocation((deskSize.width - jIFSize.width)/2,(deskSize.height- jIFSize.height)/2);
-        }else{
-            JOptionPane.showMessageDialog(null, "El Formulario: Visitas ya está abierto.");
-            if (!vis.isMaximum()) {
-                vis.getDesktopPane().getDesktopManager().deiconifyFrame(vis);
-                vis.getDesktopPane().getDesktopManager().maximizeFrame(vis);
-                vis.getDesktopPane().getDesktopManager().minimizeFrame(vis);
-                vis.moveToFront();
-            }
-            vis.show();
-            Dimension jIFSize = vis.getSize();
-            vis.setLocation((deskSize.width - jIFSize.width)/2,(deskSize.height- jIFSize.height)/2);
-            vis.toFront();
+            lib.openInternalFrame(vis);
+        } else {
+            lib.reopenInternalFrame(vis);
         }
     }//GEN-LAST:event_miVisitasActionPerformed
 
@@ -586,145 +494,61 @@ ResultSet rs;
 
     public static IRegNecSpe regNecSpe = null;
     private void miRegNecSpeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miRegNecSpeActionPerformed
-        Dimension deskSize = dskp.getSize();
         if (regNecSpe == null) {
             regNecSpe = new IRegNecSpe();
-            dskp.add(regNecSpe);
-            regNecSpe.show();
-            Dimension jIFSize = regNecSpe.getSize();
-            regNecSpe.setLocation((deskSize.width - jIFSize.width)/2,(deskSize.height- jIFSize.height)/2);
-        }else{
-            JOptionPane.showMessageDialog(null, "El Formulario: Registro de Necesidades Especiales ya está abierto.");
-            if (!regNecSpe.isMaximum()) {
-                regNecSpe.getDesktopPane().getDesktopManager().deiconifyFrame(regNecSpe);
-                regNecSpe.getDesktopPane().getDesktopManager().maximizeFrame(regNecSpe);
-                regNecSpe.getDesktopPane().getDesktopManager().minimizeFrame(regNecSpe);
-                regNecSpe.moveToFront();
-            }
-            regNecSpe.show();
-            Dimension jIFSize = regNecSpe.getSize();
-            regNecSpe.setLocation((deskSize.width - jIFSize.width)/2,(deskSize.height- jIFSize.height)/2);
-            regNecSpe.toFront();
+            lib.openInternalFrame(regNecSpe);
+        } else {
+            lib.reopenInternalFrame(regNecSpe);
         }
     }//GEN-LAST:event_miRegNecSpeActionPerformed
 
     public static IRegCorrespondencia regCorres = null;
     private void miRegCorrespActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miRegCorrespActionPerformed
-        Dimension deskSize = dskp.getSize();
         if (regCorres == null) {
             regCorres = new IRegCorrespondencia();
-            dskp.add(regCorres);
-            regCorres.show();
-            Dimension jIFSize = regCorres.getSize();
-            regCorres.setLocation((deskSize.width - jIFSize.width)/2,(deskSize.height- jIFSize.height)/2);
-        }else{
-            JOptionPane.showMessageDialog(null, "El Formulario: Registro de Correspondencia ya está abierto.");
-            if (!regCorres.isMaximum()) {
-                regCorres.getDesktopPane().getDesktopManager().deiconifyFrame(regCorres);
-                regCorres.getDesktopPane().getDesktopManager().maximizeFrame(regCorres);
-                regCorres.getDesktopPane().getDesktopManager().minimizeFrame(regCorres);
-                regCorres.moveToFront();
-            }
-            regCorres.show();
-            Dimension jIFSize = regCorres.getSize();
-            regCorres.setLocation((deskSize.width - jIFSize.width)/2,(deskSize.height- jIFSize.height)/2);
-            regCorres.toFront();
+            lib.openInternalFrame(regCorres);
+        } else {
+            lib.reopenInternalFrame(regCorres);
         }
     }//GEN-LAST:event_miRegCorrespActionPerformed
 
     public static IInformeRefDiagTrat infRefDiagTrat = null;
     private void miInfRefDiagnTratActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miInfRefDiagnTratActionPerformed
-        Dimension deskSize = dskp.getSize();
         if (infRefDiagTrat == null) {
             infRefDiagTrat = new IInformeRefDiagTrat();
-            dskp.add(infRefDiagTrat);
-            infRefDiagTrat.show();
-            Dimension jIFSize = infRefDiagTrat.getSize();
-            infRefDiagTrat.setLocation((deskSize.width - jIFSize.width)/2,(deskSize.height- jIFSize.height)/2);
-        }else{
-            JOptionPane.showMessageDialog(null, "El Formulario: Informe de Referencias de Diagnóstico y Tratamiento ya está abierto.");
-            if (!infRefDiagTrat.isMaximum()) {
-                infRefDiagTrat.getDesktopPane().getDesktopManager().deiconifyFrame(infRefDiagTrat);
-                infRefDiagTrat.getDesktopPane().getDesktopManager().maximizeFrame(infRefDiagTrat);
-                infRefDiagTrat.getDesktopPane().getDesktopManager().minimizeFrame(infRefDiagTrat);
-                infRefDiagTrat.moveToFront();
-            }
-            infRefDiagTrat.show();
-            Dimension jIFSize = infRefDiagTrat.getSize();
-            infRefDiagTrat.setLocation((deskSize.width - jIFSize.width)/2,(deskSize.height- jIFSize.height)/2);
-            infRefDiagTrat.toFront();
+            lib.openInternalFrame(infRefDiagTrat);
+        } else {
+            lib.reopenInternalFrame(infRefDiagTrat);
         }
     }//GEN-LAST:event_miInfRefDiagnTratActionPerformed
 
     public static ITipoProgEdu tipoProgEdu = null;
     private void miTipoProgEduActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miTipoProgEduActionPerformed
-        Dimension deskSize = dskp.getSize();
         if (tipoProgEdu == null) {
             tipoProgEdu = new ITipoProgEdu();
-            dskp.add(tipoProgEdu);
-            tipoProgEdu.show();
-            Dimension jIFSize = tipoProgEdu.getSize();
-            tipoProgEdu.setLocation((deskSize.width - jIFSize.width)/2,(deskSize.height- jIFSize.height)/2);
-        }else{
-            JOptionPane.showMessageDialog(null, "El Formulario: Tipo de Programa Educativo ya está abierto.");
-            if (!tipoProgEdu.isMaximum()) {
-                tipoProgEdu.getDesktopPane().getDesktopManager().deiconifyFrame(tipoProgEdu);
-                tipoProgEdu.getDesktopPane().getDesktopManager().maximizeFrame(tipoProgEdu);
-                tipoProgEdu.getDesktopPane().getDesktopManager().minimizeFrame(tipoProgEdu);
-                tipoProgEdu.moveToFront();
-            }
-            tipoProgEdu.show();
-            Dimension jIFSize = tipoProgEdu.getSize();
-            tipoProgEdu.setLocation((deskSize.width - jIFSize.width)/2,(deskSize.height- jIFSize.height)/2);
-            tipoProgEdu.toFront();
+            lib.openInternalFrame(tipoProgEdu);
+        } else {
+            lib.reopenInternalFrame(tipoProgEdu);
         }
     }//GEN-LAST:event_miTipoProgEduActionPerformed
 
     public static IActualizacionPerfiles actperf = null;
     private void miActPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miActPerfilActionPerformed
-        Dimension deskSize = dskp.getSize();
         if (actperf == null) {
             actperf = new IActualizacionPerfiles();
-            dskp.add(actperf);
-            actperf.show();
-            Dimension jIFSize = actperf.getSize();
-            actperf.setLocation((deskSize.width - jIFSize.width)/2,(deskSize.height- jIFSize.height)/2);
-        }else{
-            JOptionPane.showMessageDialog(null, "El Formulario: Actualización de Perfiles ya está abierto.");
-            if (!actperf.isMaximum()) {
-                actperf.getDesktopPane().getDesktopManager().deiconifyFrame(actperf);
-                actperf.getDesktopPane().getDesktopManager().maximizeFrame(actperf);
-                actperf.getDesktopPane().getDesktopManager().minimizeFrame(actperf);
-                actperf.moveToFront();
-            }
-            actperf.show();
-            Dimension jIFSize = actperf.getSize();
-            actperf.setLocation((deskSize.width - jIFSize.width)/2,(deskSize.height- jIFSize.height)/2);
-            actperf.toFront();
+            lib.openInternalFrame(actperf);
+        } else {
+            lib.reopenInternalFrame(actperf);
         }
     }//GEN-LAST:event_miActPerfilActionPerformed
 
     public static IPerfilAdministrativo perfAdm = null;
     private void miPerfAdmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miPerfAdmActionPerformed
-        Dimension deskSize = dskp.getSize();
         if (perfAdm == null) {
             perfAdm = new IPerfilAdministrativo();
-            dskp.add(perfAdm);
-            perfAdm.show();
-            Dimension jIFSize = perfAdm.getSize();
-            perfAdm.setLocation((deskSize.width - jIFSize.width)/2,(deskSize.height- jIFSize.height)/2);
-        }else{
-            JOptionPane.showMessageDialog(null, "El Formulario: Perfil Administrativo ya está abierto.");
-            if (!perfAdm.isMaximum()) {
-                perfAdm.getDesktopPane().getDesktopManager().deiconifyFrame(perfAdm);
-                perfAdm.getDesktopPane().getDesktopManager().maximizeFrame(perfAdm);
-                perfAdm.getDesktopPane().getDesktopManager().minimizeFrame(perfAdm);
-                perfAdm.moveToFront();
-            }
-            perfAdm.show();
-            Dimension jIFSize = perfAdm.getSize();
-            perfAdm.setLocation((deskSize.width - jIFSize.width)/2,(deskSize.height- jIFSize.height)/2);
-            perfAdm.toFront();
+            lib.openInternalFrame(perfAdm);
+        } else {
+            lib.reopenInternalFrame(perfAdm);
         }
     }//GEN-LAST:event_miPerfAdmActionPerformed
 
@@ -973,49 +797,21 @@ ResultSet rs;
 
     public static IPediatrica pedt = null;
     private void miHCPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miHCPActionPerformed
-        Dimension deskSize = dskp.getSize();
         if (pedt == null) {
             pedt = new IPediatrica();
-            dskp.add(pedt);
-            pedt.show();
-            Dimension jIFSize = pedt.getSize();
-            pedt.setLocation((deskSize.width - jIFSize.width)/2,10);
-        }else{
-            JOptionPane.showMessageDialog(null, "El Formulario: Historia Clínica Pediátrica ya está abierto.");
-            if (!pedt.isMaximum()) {
-                pedt.getDesktopPane().getDesktopManager().deiconifyFrame(pedt);
-                pedt.getDesktopPane().getDesktopManager().maximizeFrame(pedt);
-                pedt.getDesktopPane().getDesktopManager().minimizeFrame(pedt);
-                pedt.moveToFront();
-            }
-            pedt.show();
-            Dimension jIFSize = pedt.getSize();
-            pedt.setLocation((deskSize.width - jIFSize.width)/2,10);
-            pedt.toFront();
+            lib.openInternalFrame(pedt);
+        } else {
+            lib.reopenInternalFrame(pedt);
         }
     }//GEN-LAST:event_miHCPActionPerformed
 
     public static IRevExp rev = null;
     private void miExpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miExpActionPerformed
-        Dimension deskSize = dskp.getSize();
         if (rev == null) {
             rev = new IRevExp();
-            dskp.add(rev);
-            rev.show();
-            Dimension jIFSize = rev.getSize();
-            rev.setLocation((deskSize.width - jIFSize.width)/2,10);
-        }else{
-            JOptionPane.showMessageDialog(null, "El Formulario: Revisión de Expediente ya está abierto.");
-            if (!rev.isMaximum()) {
-                rev.getDesktopPane().getDesktopManager().deiconifyFrame(rev);
-                rev.getDesktopPane().getDesktopManager().maximizeFrame(rev);
-                rev.getDesktopPane().getDesktopManager().minimizeFrame(rev);
-                rev.moveToFront();
-            }
-            rev.show();
-            Dimension jIFSize = rev.getSize();
-            rev.setLocation((deskSize.width - jIFSize.width)/2,10);
-            rev.toFront();
+            lib.openInternalFrame(rev);
+        } else {
+            lib.reopenInternalFrame(rev);
         }
     }//GEN-LAST:event_miExpActionPerformed
 // String servidor, String puerto, String usuario, String password, String basedatos, String path 

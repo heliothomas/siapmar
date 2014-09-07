@@ -1,10 +1,26 @@
 package sc;
 
+import java.awt.Dimension;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
+import vista.IActualizacionPerfiles;
+import vista.IFichaSocioEcon;
+import vista.IFondoMedicoComp;
+import vista.IHistory;
+import vista.IInformeRefDiagTrat;
+import vista.IPediatrica;
+import vista.IPerfilAdministrativo;
+import vista.IRegCorrespondencia;
+import vista.IRegNecSpe;
+import vista.IRevExp;
+import vista.ITipoProgEdu;
+import vista.IUserAccount;
+import vista.IVisitas;
+import static vista.MenuMain.dskp;
 
 public class Library {
 
@@ -86,5 +102,29 @@ public class Library {
    // Comprobar si encaja
     return m.matches();
 
+    }
+
+    public void openInternalFrame(final JInternalFrame iframe) {
+        dskp.add(iframe);
+        setLocation(iframe);
+    }
+
+    public void reopenInternalFrame(final JInternalFrame iframe) {
+        JOptionPane.showMessageDialog(null, "El Formulario ya estaba abierto.");
+        if (!iframe.isMaximum()) {
+            iframe.getDesktopPane().getDesktopManager().deiconifyFrame(iframe);
+            iframe.getDesktopPane().getDesktopManager().maximizeFrame(iframe);
+            iframe.getDesktopPane().getDesktopManager().minimizeFrame(iframe);
+            iframe.moveToFront();
+        }
+        setLocation(iframe);
+    }
+
+    private void setLocation(final JInternalFrame iframe) {
+        Dimension deskSize = dskp.getSize();
+        Dimension iFSize = iframe.getSize();
+        iframe.show();
+        iframe.setLocation((deskSize.width - iFSize.width)/2,(deskSize.height- iFSize.height)/2);
+        iframe.toFront();
     }
 }
