@@ -67,12 +67,7 @@ ResultSet rs;
 
     public static void Listar(){
         if (!lbCode.getText().equals("") || lbCode.getText() != null) {
-            DefaultTableModel tabla = new DefaultTableModel(){
-                @Override
-                public boolean isCellEditable(int row, int column) {
-                        return false;
-                }
-            };
+            DefaultTableModel tabla = new DefaultTableModel();
             D_AspectoSocial as = new D_AspectoSocial();
             ArrayList<D_AspectoSocial> lista = as.ListarParentescos(Integer.parseInt(lbCode.getText()));
             

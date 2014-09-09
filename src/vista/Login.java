@@ -204,25 +204,6 @@ String letras = "[a-zA-Z]*";
             lbResult.setText("Iniciando sesión ...");
             String[] args = {"Hola"};
             MultiThreading.main(args);
-            
-            if (OSDetector.isWindows()) {
-                try {
-                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
-                    e.printStackTrace();
-                    JOptionPane.showMessageDialog(null, "Error: " + e.toString());
-                }
-            }else{
-                try {
-                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-                    
-                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
-                    e.printStackTrace();
-                    JOptionPane.showMessageDialog(null, "Error: " + e.toString());
-                }
-            }
-            SwingUtilities.updateComponentTreeUI(this);
-            
             hide();
         }else{
             lbResult.setText("Los datos ingresados son inválidos");

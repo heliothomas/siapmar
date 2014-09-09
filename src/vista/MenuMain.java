@@ -1,5 +1,11 @@
 package vista;
 
+import com.seaglasslookandfeel.SeaGlassLookAndFeel;
+import de.javasoft.plaf.synthetica.SyntheticaBlackEyeLookAndFeel;
+import de.javasoft.plaf.synthetica.SyntheticaBlueLightLookAndFeel;
+import de.javasoft.plaf.synthetica.SyntheticaBlueMoonLookAndFeel;
+import de.javasoft.plaf.synthetica.SyntheticaStandardLookAndFeel;
+import de.javasoft.plaf.synthetica.SyntheticaWhiteVisionLookAndFeel;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -12,6 +18,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.*;
@@ -78,6 +85,12 @@ ResultSet rs;
         miBackGround = new javax.swing.JMenuItem();
         miBackGImage = new javax.swing.JMenuItem();
         miIS = new javax.swing.JMenuItem();
+        miSeaGlass = new javax.swing.JMenuItem();
+        miStandard = new javax.swing.JMenuItem();
+        miBlueMoon = new javax.swing.JMenuItem();
+        miBlackEye = new javax.swing.JMenuItem();
+        miBlueLight = new javax.swing.JMenuItem();
+        miWhiteVision = new javax.swing.JMenuItem();
         menuReportes = new javax.swing.JMenu();
         miRtCU = new javax.swing.JMenuItem();
         miAlumAI = new javax.swing.JMenuItem();
@@ -111,8 +124,8 @@ ResultSet rs;
 
         lbFondo.setAutoscrolls(true);
         lbFondo.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(153, 0, 0), 2, true));
+        dskp.add(lbFondo);
         lbFondo.setBounds(30, 20, 900, 640);
-        dskp.add(lbFondo, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jMenuBar1.setBackground(new java.awt.Color(255, 153, 51));
 
@@ -304,6 +317,54 @@ ResultSet rs;
         });
         miApariencia.add(miIS);
 
+        miSeaGlass.setText("Sea Glass");
+        miSeaGlass.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miSeaGlassActionPerformed(evt);
+            }
+        });
+        miApariencia.add(miSeaGlass);
+
+        miStandard.setText("Standard");
+        miStandard.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miStandardActionPerformed(evt);
+            }
+        });
+        miApariencia.add(miStandard);
+
+        miBlueMoon.setText("Blue Moon");
+        miBlueMoon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miBlueMoonActionPerformed(evt);
+            }
+        });
+        miApariencia.add(miBlueMoon);
+
+        miBlackEye.setText("Black Eye");
+        miBlackEye.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miBlackEyeActionPerformed(evt);
+            }
+        });
+        miApariencia.add(miBlackEye);
+
+        miBlueLight.setText("Blue Light");
+        miBlueLight.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miBlueLightActionPerformed(evt);
+            }
+        });
+        miApariencia.add(miBlueLight);
+
+        miWhiteVision.setText("White Vision");
+        miWhiteVision.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miWhiteVisionActionPerformed(evt);
+            }
+        });
+        miApariencia.add(miWhiteVision);
+
         menuHerr.add(miApariencia);
 
         jMenuBar1.add(menuHerr);
@@ -423,8 +484,8 @@ ResultSet rs;
             .addComponent(dskp, javax.swing.GroupLayout.DEFAULT_SIZE, 679, Short.MAX_VALUE)
         );
 
-        java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-        setBounds((screenSize.width-966)/2, (screenSize.height-738)/2, 966, 738);
+        setSize(new java.awt.Dimension(966, 738));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     public static IUserAccount ua = null;
@@ -1018,6 +1079,60 @@ ResultSet rs;
             rev.toFront();
         }
     }//GEN-LAST:event_miExpActionPerformed
+
+    private void miSeaGlassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miSeaGlassActionPerformed
+        setSkin("seaGlass");
+    }//GEN-LAST:event_miSeaGlassActionPerformed
+
+    private void miStandardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miStandardActionPerformed
+        setSkin("syntheticaStandard");
+    }//GEN-LAST:event_miStandardActionPerformed
+
+    private void miBlueMoonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miBlueMoonActionPerformed
+        setSkin("syntheticaBlueMoon");
+    }//GEN-LAST:event_miBlueMoonActionPerformed
+
+    private void miBlackEyeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miBlackEyeActionPerformed
+        setSkin("syntheticaBlackEye");
+    }//GEN-LAST:event_miBlackEyeActionPerformed
+
+    private void miBlueLightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miBlueLightActionPerformed
+        setSkin("syntheticaBlueLight");
+    }//GEN-LAST:event_miBlueLightActionPerformed
+
+    private void miWhiteVisionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miWhiteVisionActionPerformed
+        setSkin("syntheticaWhiteVision");
+    }//GEN-LAST:event_miWhiteVisionActionPerformed
+
+private void setSkin(final String skinName) {
+        try {
+            switch (skinName) {
+                case "seaGlass":
+                    UIManager.setLookAndFeel(new SeaGlassLookAndFeel());
+                    break;
+                case "syntheticaStandard":
+                    UIManager.setLookAndFeel(new SyntheticaStandardLookAndFeel());
+                    break;
+                case "syntheticaBlueMoon":
+                    UIManager.setLookAndFeel(new SyntheticaBlueMoonLookAndFeel());
+                    break;
+                case "syntheticaBlueLight":
+                    UIManager.setLookAndFeel(new SyntheticaBlueLightLookAndFeel());
+                    break;
+                case "syntheticaBlackEye":
+                    UIManager.setLookAndFeel(new SyntheticaBlackEyeLookAndFeel());
+                    break;
+                case "syntheticaWhiteVision":
+                    UIManager.setLookAndFeel(new SyntheticaWhiteVisionLookAndFeel());
+                    break;
+            }
+            SwingUtilities.updateComponentTreeUI(this);
+            this.pack();
+        } catch (UnsupportedLookAndFeelException | ParseException e) {
+            JOptionPane.showMessageDialog(null, "Error with look and feel: " + e.getMessage());
+        }
+    }
+
 // String servidor, String puerto, String usuario, String password, String basedatos, String path 
     /*
     public void restaurar()
@@ -1066,13 +1181,15 @@ ResultSet rs;
     }
 
     public static void main(String args[]) {
-        
+        try {
+            UIManager.setLookAndFeel(new SyntheticaStandardLookAndFeel());
+        } catch (ParseException | UnsupportedLookAndFeelException e) {
+            System.out.println("Error with look and feel: " + e.getMessage());
+        }
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
-                
                 MenuMain frame = new MenuMain();
-                
                 frame.setVisible(true);
             }
         });
@@ -1100,6 +1217,9 @@ ResultSet rs;
     private javax.swing.JMenu miApariencia;
     private javax.swing.JMenuItem miBackGImage;
     private javax.swing.JMenuItem miBackGround;
+    private javax.swing.JMenuItem miBlackEye;
+    private javax.swing.JMenuItem miBlueLight;
+    private javax.swing.JMenuItem miBlueMoon;
     public static javax.swing.JMenuItem miCU;
     private javax.swing.JMenuItem miExp;
     private javax.swing.JMenuItem miFMedC;
@@ -1117,11 +1237,14 @@ ResultSet rs;
     private javax.swing.JMenuItem miResPant;
     public static javax.swing.JMenuItem miRtCU;
     private javax.swing.JMenuItem miSO;
+    private javax.swing.JMenuItem miSeaGlass;
+    private javax.swing.JMenuItem miStandard;
     private javax.swing.JMenuItem miTipoProgEdu;
     private javax.swing.JMenuItem miTrimes1;
     private javax.swing.JMenuItem miTrimes2;
     private javax.swing.JMenuItem miTrimes3;
     private javax.swing.JMenuItem miTrimes4;
     private javax.swing.JMenuItem miVisitas;
+    private javax.swing.JMenuItem miWhiteVision;
     // End of variables declaration//GEN-END:variables
 }
